@@ -46,7 +46,7 @@
     state: absent
   loop: "{{ mas_uninstalled_apps }}"
   loop_control:
-    loop_label: "{{ item.name | default(item.id | default(item)) }}"
+    label: "{{ item.name | default(item.id | default(item)) }}"
 
 - name: Ensure configured MAS apps are installed.
   become: true
@@ -55,7 +55,7 @@
     state: present
   loop: "{{ mas_installed_apps + mas_installed_app_ids }}"
   loop_control:
-    loop_label: "{{ item.name | default(item.id | default(item)) }}"
+    label: "{{ item.name | default(item.id | default(item)) }}"
 
 - name: Upgrade all apps (if configured).
   community.general.mas:
