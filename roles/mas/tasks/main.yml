@@ -41,6 +41,8 @@
 
 - name: Ensure unwanted MAS apps are uninstalled.
   become: true
+  environment:
+    PATH: "{{ mas_path | dirname }}:{{ ansible_env.PATH }}"
   community.general.mas:
     id: "{{ item.id | default(item) }}"
     state: absent
@@ -50,6 +52,8 @@
 
 - name: Ensure configured MAS apps are installed.
   become: true
+  environment:
+    PATH: "{{ mas_path | dirname }}:{{ ansible_env.PATH }}"
   community.general.mas:
     id: "{{ item.id | default(item) }}"
     state: present
@@ -58,6 +62,9 @@
     label: "{{ item.name | default(item.id | default(item)) }}"
 
 - name: Upgrade all apps (if configured).
+  become: true
+  environment:
+    PATH: "{{ mas_path | dirname }}:{{ ansible_env.PATH }}"
   community.general.mas:
     upgrade_all: true
   when: mas_upgrade_all_apps
